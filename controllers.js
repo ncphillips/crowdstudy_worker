@@ -39,18 +39,7 @@ module.exports.createIfEmpty = function (req, res, next) {
   }
 };
 
-/**
- * req.worker is updated in MongoDB
- *
- * @param req
- * @param res
- * @param next
- */
-var updateWorker = function (req, res, next) {
-  var workers = req.db.collection('workers');
-  workers.update({_id: req.worker._id}, req.worker, next);
-};
-module.exports.updateWorker = updateWorker;
+
 
 /**
  * Gets the experiment named by `req.experiment_name` and
@@ -112,6 +101,20 @@ module.exports.createExperimentIfEmpty = function (req, res, next) {
 };
 
 /**
+ * Merges values of req.body into req.worker.
+ *
+ * @param req
+ * @param res
+ * @param next
+ *
+ * @todo Do some validation.
+ */
+module.exports.mergeWorkerBody = function (req, res, next) {
+  _.merge(req.worker, req.body);
+  next();
+};
+
+/**
  * Merges values of req.body into req.experiment.
  *
  * @param req
@@ -124,6 +127,19 @@ module.exports.mergeExperimentBody = function (req, res, next) {
   _.merge(req.experiments, req.body);
   next();
 };
+
+/**
+ * req.worker is updated in MongoDB
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+var updateWorker = function (req, res, next) {
+  var workers = req.db.collection('workers');
+  workers.update({_id: req.worker._id}, req.worker, next);
+};
+module.exports.updateWorker = updateWorker;
 
 /**
  * Puts `req.experiment` into `req.worker`'s experiments, and calls updateWorker.

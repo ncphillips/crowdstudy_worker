@@ -36,6 +36,12 @@ module.exports = function (app) {
     controllers.returnWorker
   );
 
+  app.post('/:id',
+    controllers.mergeWorkerBody,
+    controllers.updateWorker,
+    controllers.returnWorker
+  );
+
   /**
    * Get or Create Experiment Record for Worker.
    */
