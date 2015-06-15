@@ -24,7 +24,7 @@ module.exports = function (app) {
    * };
    */
   app.post('/',
-    controllers.query,
+    controllers.post_query,
     controllers.createIfEmpty,
     controllers.returnWorkers
   );
@@ -56,7 +56,16 @@ module.exports = function (app) {
    */
   app.post('/:id/experiments/:experiment_name',
     controllers.getExperiment,
+    controllers.createExperimentIfEmpty,
     controllers.mergeExperimentBody,
+    controllers.updateExperiment,
+    controllers.returnExperiment
+  );
+
+  app.get('/:id/experiments/:experiment_name/mark_complete',
+    controllers.getExperiment,
+    controllers.generate_confirmation_code,
+    controllers.markExperimentComplete,
     controllers.updateExperiment,
     controllers.returnExperiment
   );
