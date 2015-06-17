@@ -176,7 +176,6 @@ module.exports.markExperimentComplete = function (req, res, next) {
  * @param next
  */
 var updateExperiment = function (req, res, next) {
-  console.log("Update Experiment ", req.experiment_name, req.experiment);
   req.worker.experiments[req.experiment_name] = req.experiment;
   updateWorker(req, res, next);
 };

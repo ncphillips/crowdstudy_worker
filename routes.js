@@ -1,5 +1,4 @@
 'use strict';
-var worker = require('../../lib/middleware/worker');
 var controllers = require('./controllers');
 
 /**
