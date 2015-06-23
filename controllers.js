@@ -1,3 +1,5 @@
+'use strict';
+
 var _ = require('lodash');
 
 /**
@@ -96,8 +98,9 @@ module.exports.createExperimentIfEmpty = function (req, res, next) {
     // Check if this experiment has a registration hook.
     var path = ['..', req.experiment_name, 'controllers'].join('/');
     var keys = [];
+    var controller = null;
     try {
-      var controller = require(path);
+      controller = require(path);
       keys = Object.getOwnPropertyNames(controller);
     }
     catch (E) {}
@@ -105,8 +108,11 @@ module.exports.createExperimentIfEmpty = function (req, res, next) {
     if (keys.indexOf('hook_worker_registration') >= 0){
       // If it does, call the hook then update the worker.
       controller.hook_worker_registration(req, res, function (err) {
-        if (err) return next(err);
-        updateWorker(req, res, next);
+        if (err) {
+          return next(err);
+        } else {
+          updateWorker(req, res, next);
+        }
       });
     }
     else {
