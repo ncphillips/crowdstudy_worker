@@ -15,7 +15,6 @@ module.exports.query = function (req, res, next) {
       return next(err);
     }
     req.workers = workers;
-    console.log("Workers: " + req.workers);
     next();
   });
 };
@@ -33,7 +32,6 @@ module.exports.post_query = function (req, res, next) {
       return next(err);
     }
     req.workers = workers;
-    console.log("Workers: " + req.workers);
     next();
   });
 };
@@ -170,7 +168,6 @@ module.exports.updateWorker = updateWorker;
 module.exports.markExperimentComplete = function (req, res, next) {
   req.experiment.completed = true;
   req.experiment.code = req.confirmation_code;
-  console.log("MARKING COMPLETE: ", req.experiment);
   next();
 };
 
@@ -212,8 +209,6 @@ exports.generate_confirmation_code = function (req, res, next) {
     result += mask[Math.round(Math.random() * (mask.length - 1))];
   }
 
-
-  console.log("Code:", result);
   req.confirmation_code = result;
   next();
 };
