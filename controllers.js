@@ -97,11 +97,18 @@ module.exports.createExperimentIfEmpty = function (req, res, next) {
     var path = ['..', req.experiment_name, 'controllers'].join('/');
     var keys = [];
     var controller = null;
+
     try {
-      controller = require(path);
-      keys = Object.getOwnPropertyNames(controller);
+      controller = require(req.experiment_name).controllers;
     }
-    catch (E) {}
+    catch (E) {
+      // Some experiments wills tart with 'crowdstudy_' so let's try that too.
+      try {
+        controller = require('crowdstudy_' + req.experiment_name).controllers;
+      } catch (E) {}
+    }
+
+    keys = Object.getOwnPropertyNames(controller);
 
     if (keys.indexOf('hook_worker_registration') >= 0){
       // If it does, call the hook then update the worker.
