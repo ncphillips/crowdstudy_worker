@@ -96,7 +96,7 @@ module.exports.createExperimentIfEmpty = function (req, res, next) {
     // Check if this experiment has a registration hook.
     var path = ['..', req.experiment_name, 'controllers'].join('/');
     var keys = [];
-    var controller = null;
+    var controller = {};
 
     try {
       controller = require(req.experiment_name).controllers;
