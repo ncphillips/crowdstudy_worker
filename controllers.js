@@ -99,12 +99,12 @@ module.exports.createExperimentIfEmpty = function (req, res, next) {
     var controller = {};
 
     try {
-      controller = require(req.experiment_name).controllers;
+      controller = require(req.experiment_name).controllers || {};
     }
     catch (E) {
       // Some experiments wills tart with 'crowdstudy_' so let's try that too.
       try {
-        controller = require('crowdstudy_' + req.experiment_name).controllers;
+        controller = require('crowdstudy_' + req.experiment_name).controllers || {};
       } catch (E) {}
     }
 
