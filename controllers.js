@@ -46,6 +46,7 @@ module.exports.post_query = function (req, res, next) {
 module.exports.createIfEmpty = function (req, res, next) {
   if (req.workers.length < 1) {
     var worker = req.body;
+    worker.created = new Date();
     worker.experiments = {};
 
     var workers = req.db.collection('workers');
@@ -90,7 +91,8 @@ module.exports.createExperimentIfEmpty = function (req, res, next) {
   if (!req.experiment) {
     req.experiment = {
       consent: null,
-      completed: false
+      completed: false,
+      created: new Date()
     };
 
     // Check if this experiment has a registration hook.
